@@ -150,10 +150,10 @@ var CodeKitten = (function(){
 })();
   
 // websocket-safe test.
-setTimeout(function(){
-  var a = CodeKitten.find("_TEST_", "asdfasdf\nasdfasdf\nasdfasdfg\nadf\nasdfasdf\nasdfasdf",1,3);
-  CodeKitten.print(a);
-}, 1000);
+//setTimeout(function(){
+//  var a = CodeKitten.find("_TEST_", "asdfasdf\nasdfasdf\nasdfasdfg\nadf\nasdfasdf\nasdfasdf",1,3);
+//  CodeKitten.print(a);
+//}, 1000);
 
 // FOR USE AS A WEB WORKER! :)
 self.addEventListener('message', function(e) {
