@@ -1,0 +1,2645 @@
+<html>
+  <!-- THIS IS THE MAIN APP HTML, HAVE AT IT :) -->
+  <head>
+    <title>Code-Kitten by The Chaos Collective</title>
+    <link rel="stylesheet/less" type="text/css" href="/dark.less">
+    <link rel="icon" type="image/png"  href="/favicon_32.png">
+    <script src="/less-1.3.0.min.js" type="text/javascript"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
+    <!-- Code-Kitten! mrow ^_^ -->
+    <!-- <script src='./codekitten.js'></script> -->
+    <!-- -->
+<style>
+#bg {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: url("./kitten.jpg") center center repeat-y;
+  background-size: 100%;
+  opacity: 0.4;
+}
+#codekitten{
+  margin-top: 40px; 
+  position: relative; 
+  height: 560px;
+}
+#ckFeedback {
+  position: absolute;
+  top: -20px;
+  left: 550px;
+  width: 150px;
+  text-align: right;
+  line-height: 20px;
+}
+#loadBtns {
+  position: absolute;
+  left: 0;
+  top: -26px;
+}
+.loadBtn {
+  background: #333;
+  color: #CCC;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 5px;
+  line-height: 12px;
+  font-size: 12px;
+  padding: 5px;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+}
+.loadBtn:hover, .loadBtn.sel {
+  background: #000;
+  color: #FFF;
+  box-shadow: none;
+}
+#editor {
+  width: 700px;
+  height: 500px;
+  font-size: 11px;
+  line-height: 14px;
+  background: #333;
+  color: #CCC;
+  font-family: Courier New;
+}
+#ckMatchBtns {
+  position: absolute; 
+  top: 5px; 
+  left: 720px;
+  width: 40px;
+  height: 495px;
+  text-align: center;
+}
+.selMatch {
+  position: relative;
+  display: block;
+  margin-bottom: 10px;
+  cursor: pointer; 
+}
+.selMatchBtn {
+  border-radius: 20px;
+  line-height: 40px;
+  font-size: 18px;
+  color: #FFF;
+  background: #555;
+  position: relative;
+  width: 40px;
+  text-align: center;
+  display: inline-block;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+  z-index: 10; 
+}
+.selMatchBtnGood {
+  background: #1FAD5C;
+  color: white;
+}
+.selMatch.sel .selMatchBtn {
+  background: #C90;
+  box-shadow: none;
+}
+.info {
+  position: absolute;
+  top: 0px;
+  width: 210px;
+  height: 38px;
+  font-size: 12px;
+  color: #333;
+  text-align: left;
+  line-height: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  left: 20px;
+  z-index: 1;
+  padding-left: 30px;
+  padding-top: 2px;
+  font-weight: 600;
+  border-radius: 0 20px 20px 0;
+}
+.info2 {
+  height: 32px;
+  padding-top: 8px;
+}
+.transOpacity {
+  -webkit-transition: opacity 0.2s ease;
+  -moz-transition: opacity 0.2s ease;
+  -ms-transition: opacity 0.2s ease;
+  -o-transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
+}
+.transOpacitySlow {
+  -webkit-transition: opacity 1s ease;
+  -moz-transition: opacity 1s ease;
+  -ms-transition: opacity 1s ease;
+  -o-transition: opacity 1s ease;
+  transition: opacity 1s ease;
+}
+.ace_layer .highlighted_a{
+  background: rgba(255, 255, 128, 0.15);
+  border-left: 2px solid #FF8;
+  position: absolute;
+  margin-left: -4px;
+  border-right: 2px solid #FF8;
+  right: 0 !important;
+  width: auto !important;
+}
+.ace_layer .highlighted_b{
+  background: rgba(255, 128, 255, 0.15);
+  border-left: 2px solid #F8F;
+  position: absolute;
+  margin-left: -4px;
+  border-right: 2px solid #F8F;
+  right: 0 !important;
+  width: auto !important;
+}
+#moreinfo, #footer {
+  padding-top: 20px;
+  font-size: 24px;
+}
+#moreinfo span, #footer span {
+  font-size: 16px;
+}
+#wikitext {
+  margin-top: 20px;
+  max-width: 635px;
+  margin-left: 25px;
+  border-left: 3px solid #CCC;
+  padding-left: 25px;
+  background: white;
+  padding-top: 10px;
+  padding-right: 10px;
+}
+#footer {
+  padding-top: 40px;
+  padding-bottom: 100px;
+  border-top: 1px solid black;
+  margin-top: 40px;
+}
+</style>
+  </head>
+<body>  
+  <div id='bg'></div>
+  <div class='topbar'>
+    <div class='columnCenter'>
+      <ul>
+        <li><a href='http://chaoscollective.org/'>The Chaos Collective</a></li>
+        <li class='menuSlash'>/</li>
+        <li class='menuDim'><a href='http://chaoscollective.org/projects/'>Projects</a></li>
+        <li class='menuDim'><a href='http://blog.chaoscollective.org/'>Updates</a></li>
+      </ul>
+      <div class='topright'>
+        <a href='http://twitter.com/ChaosOrg'><div class='twitter'>Twitter</div></a> / <a href='https://plus.google.com/b/114713940083676066331/114713940083676066331'><div class='googleplus'>Google+</div></a>
+      </div>
+    </div>
+  </div>
+  <div id='box'>
+    <div class='columnCenter' style='padding-top: 10px;'>
+    
+    
+      <div style="line-height: 32px; font-size: 32px; padding-top: 20px; font-weight: 600;">Code-Kitten</div>
+      <div style="font-size: 16px; opacity: 0.8;">I nomz teh codez fur u!</div>
+      
+      <div class='sans' style='padding-top: 20px; font-size: 16px; max-width: 600px;'>
+      Code-Kitten helps you find high-level patterns that often make code buggy, slow, and hard to manage.<br/><br/>
+      Code-Kitten is fast and frisky. Code-Kitten doesn't like repeated fluff and sluggish bottlenecks. Code-Kitten wants to maxamize treats and playtime. And Code-Kitten wants to do it with you. Fact.<br/><br/>
+      Code-Kitten is great at looking for bits of duplicate code within a file. Using the same code twice upsets Code-Kitten because it may introduce bugs later if only one section of the code is updated. Proof. 11 out of 10 cats agree that modular non-duplicate code is a good thing (and yes, Code-Kitten's vote counts twice).<br/><br/>
+      Just paste in some code below and see what this cool cat has to say. 
+      </div>
+      
+      <div id='codekitten'>
+<!-- ---------- --> 
+<div id='loadBtns'><div class='loadBtn sel' onclick='loadCode("codeExA",this);'>Example Duplicate Code</div><div class='loadBtn' onclick='loadCode("codeExB",this);'>Non-Duplicate Code</div><div class='loadBtn' onclick='loadCode("codeExC",this);'>Big and Messy</div><div class='loadBtn' onclick='loadCode("codeExD",this);'>Big and Clean</div><div class='loadBtn' onclick='loadCode("codeExE",this);'>&lt;your code&gt;</div></div>
+<div id='ckFeedback' class='transOpacitySlow'></div>
+<div id='ckMatchBtns' class='transOpacitySlow'></div>
+<div id='editor'></div>
+<textarea id='codeExA' style='display: none'>
+
+// Cat Butler Greeting Generator
+
+var name        = "Fluffy";
+var officeHeld  = "Princess";
+var region      = "Devonshire";
+
+function sayHello(){
+  var greeting = "Hello, ";
+  greeting += name;
+  greeting += " the ";
+  greeting += officeHeld;
+  greeting += " of ";
+  greeting += region;
+  console.log(greeting);
+}
+function sayHowdy(){
+  var greeting = "Howdy! Good to see you, ";
+  greeting += name;
+  greeting += " the ";
+  greeting += officeHeld;
+  greeting += " of ";
+  greeting += region;
+  console.log(greeting);
+}
+function sayGoodbye(){
+  var greeting = "Goodbye, ";
+  greeting += name;
+  greeting += " the ";
+  greeting += officeHeld;
+  greeting += " of ";
+  greeting += region;
+  console.log(greeting);
+}
+</textarea>
+<textarea id='codeExB' style='display: none'>
+
+// Cat Butler Greeting Generator.
+
+var name        = "Fluffy";
+var officeHeld  = "Princess";
+var region      = "Devonshire";
+
+function greetWithPrefix(prefix){
+  var greeting = prefix;
+  greeting += name;
+  greeting += " the ";
+  greeting += officeHeld;
+  greeting += " of ";
+  greeting += region;
+  console.log(greeting);
+}
+function sayHello(){
+  greetWithPrefix("Hello, ");
+}
+function sayHowdy(){
+  greetWithPrefix("Howdy! Good to see you, ");
+}
+function sayGoodbye(){
+  greetWithPrefix("Goodbye, ");
+}
+</textarea>
+<textarea id='codeExC'>
+//
+// SERVER-SIDE
+// Node.JS! :)
+//
+console.log(".---------------------------.");
+console.log("| * Starting Node service * |");
+console.log("'---------------------------'");
+var express = require("express");
+var util    = require("util");
+var fs      = require('fs');
+var crypto  = require('crypto');
+var walk    = require('walk');
+var spawn   = require('child_process').spawn;
+var exec    = require('child_process').exec;
+var _       = require('underscore');
+// ------------------------------------------------
+// BASIC USER AUTH w/ EXPRESS
+// ------------------------------------------------
+function authorize(user, pw) {
+  var userIsOk = false;
+  userIsOk |= (user === 'user' && pw === 'password');
+  return userIsOk;
+}
+var app  = express.createServer();
+app.use(express.bodyParser());
+app.use(express.cookieParser());
+app.use(express.session({ 
+  secret: "a very secret secret",
+  store:  new express.session.MemoryStore,  
+  cookie: {  
+    path     : '/',
+    httpOnly : true,
+    maxAge   : 1000*60*60*24*30*2    //60 days
+  } 
+}));
+//app.use(express.basicAuth(authorize));
+var uCount = (new Date()).getTime()%99999;
+app.use(function(req, res, next){
+  req.user = req.user || {};
+  if(req.cookies && req.cookies["_username"]){
+    req.user.displayName = req.cookies["_username"];
+  }else{
+    req.user.displayName = "user_"+(uCount++);
+    res.cookie("_username", req.user.displayName);
+    console.log("say hello to new user: " + req.user.displayName);
+  }
+  next(); 
+});
+var staticProvider = express.static(__dirname + '/public');
+app.use(staticProvider); // this is where static files will be served (html, css, js, media, etc.)
+// ------------------------------------------------
+// ------------------------------------------------
+
+app.get('/',function(req,res,next){
+  req.url = "index.html";
+  staticProvider(req, res, next);
+});
+var port = process.env.PORT || 3149;
+var server = app.listen(port); 
+ 
+var EDITABLE_APPS_DIR = "/APPS/"; 
+var ENABLE_LAUNCH     = false;
+
+// -----------------------------------------------------
+// for demo clean-up (remove if this gives you problems)
+var REPLACE_SANDBOX_APP_DEMO_FILES = true;
+if(REPLACE_SANDBOX_APP_DEMO_FILES){
+  fs.copyF = function (src, dst, cb) {
+    function copy(err) {
+      var is
+        , os
+        ;
+  
+      if (!err) {
+        return cb(new Error("File " + dst + " exists."));
+      }
+  
+      fs.stat(src, function (err) {
+        if (err) {
+          return cb(err);
+        }
+        is = fs.createReadStream(src);
+        os = fs.createWriteStream(dst);
+        util.pump(is, os, cb);
+      });
+    }
+    fs.stat(dst, copy);
+  };
+  fs.unlinkSync(EDITABLE_APPS_DIR+"SandboxApp/app.js");
+  fs.copyF(__dirname+"/app.js", EDITABLE_APPS_DIR+"SandboxApp/app.js", function(err){
+    if(err){
+      console.log(err);
+    }else{
+      console.log("copied app.js to SandboxApp");
+    }
+  });
+  fs.unlinkSync(EDITABLE_APPS_DIR+"SandboxApp/public/index.less");
+  fs.copyF(__dirname+"/public/index.css", EDITABLE_APPS_DIR+"SandboxApp/public/index.less", function(err){
+    if(err){
+      console.log(err);
+    }else{
+      console.log("copied public/index.less to SandboxApp");
+    }
+  });
+  fs.unlinkSync(EDITABLE_APPS_DIR+"SandboxApp/public/index.js");
+  fs.copyF(__dirname+"/public/editFile.js", EDITABLE_APPS_DIR+"SandboxApp/public/index.js", function(err){
+  if(err){
+    console.log(err);
+  }else{
+    console.log("copied public/index.js to SandboxApp");
+  }
+});
+}
+// end of demo clean-up section.
+// ------------------------------------------------------
+
+var thisAppDirName = __dirname.substring(__dirname.lastIndexOf("/")+1);
+var teamID = "SandboxApp";
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// TODO: check credentials before doing any of these GET/POST...
+app.get("/allProjectFiles", function(req, res){
+  if(req.query.project && req.query.project.length > 2){
+    var project = req.query.project.replace(/\.\./g, "");
+    var projectRoot = EDITABLE_APPS_DIR+project;
+    console.log("Listing all project files [" + projectRoot+"] for user: "+req.user.displayName + " --> (~"+usersInGroup[project]+" sockets)");
+    try{
+      var walker = walk.walk(projectRoot, {followLinks: false});
+      var filesAndInfo = [];
+      walker.on("names", function (root, nodeNamesArray) {
+        // use this to remove/sort files before doing the more expensive "stat" operation.
+        for(var i=nodeNamesArray.length-1; i>=0; i--){
+          if(nodeNamesArray[i] == ".git" || nodeNamesArray[i] == "node_modules" || nodeNamesArray[i] == "_db"){
+            nodeNamesArray.splice(i, 1);
+          }
+        }
+      });
+      walker.on("file", function (root, fileStats, next) {
+        var rt = root.substring(projectRoot.length+1);
+        if(rt.length > 0){
+          rt += "/";
+        }
+        var fname = rt + fileStats.name;
+        var sz = fileSizeCache[project+"/"+fname];
+        if(sz === undefined){
+          // first time checking files size.. get it!
+          sz = fileStats.size;
+          fileSizeCache[project+"/"+fname] = sz;
+        }
+        var td = fileTodoCache[project+"/"+fname];
+        var fd = null;
+        if(td === undefined && sz < 1000000){
+          fd = fs.readFileSync(projectRoot+"/"+fname, "utf8");
+          td = occurrences(fd, "TODO");
+          fileTodoCache[project+"/"+fname] = td;
+        }
+        var fm = fileFixMeCache[project+"/"+fname];
+        if(fm === undefined && sz < 1000000){
+          if(fd === null){
+            fd = fs.readFileSync(projectRoot+"/"+fname, "utf8");
+          }
+          fm = occurrences(fd, "FIXME");
+          fileFixMeCache[project+"/"+fname] = fm;
+        }
+        var n = usersInGroup[project+"/"+fname];
+        if(n){
+          filesAndInfo.push([fname, n, sz, td, fm]);
+        }else{
+          filesAndInfo.push([fname, 0, sz, td, fm]);
+        }
+        fd = null;
+        next();
+      });
+      walker.on("end", function() {
+      //console.log("Recursively listed project files for: " + project);
+      // indicate total team members online.
+      var n = usersInGroup[project];
+      if(n){
+        filesAndInfo.push(["", n]);
+      }else{
+        filesAndInfo.push(["", 0]);
+      }
+      res.send(JSON.stringify(filesAndInfo));
+      //callback(null, filesAndInfo);
+    }); 
+    }catch(ex){
+      console.log("<span style='color: #F00;'>*** exception walking files!</span>");
+      console.log(err);
+    }
+  }else{
+    res.send("FAIL: no project name.");
+  }
+});
+app.post("/launchProject", function(req, res){
+  if(!ENABLE_LAUNCH){
+    res.send("FAIL: Sorry, but launching projects is not currently enabled.");
+    return;
+  }
+  if(req.query.project && req.query.project.length > 2){
+    var projectName = req.query.project.replace(/\.\./g, "");
+    console.log("LAUNCHING Project ["+req.user.displayName+"] >> " + projectName);
+    var projPath = EDITABLE_APPS_DIR+projectName;   
+    exec('stop node_'+projectName, { 
+        encoding: 'utf8', 
+        timeout: 30000, 
+        maxBuffer: 200*1024, 
+        killSignal: 'SIGTERM',
+        env: null
+      }, 
+      function (error, stdout, stderr) {
+        if (error !== null) {
+          console.log('exec error: ' + error);
+          // return res.send("FAIL:");
+        }
+        console.log("STOP: " + stdout);
+        exec('start node_'+projectName, { 
+            encoding: 'utf8', 
+            timeout: 30000, 
+            maxBuffer: 200*1024, 
+            killSignal: 'SIGTERM',
+            env: null
+          }, 
+          function (error, stdout, stderr) {
+            if (error !== null) {
+              console.log('exec error: ' + error);
+              return res.send("FAIL:");
+            }
+            var launchURL = "http://"+projectName.toLowerCase()+".chaoscollective.org/";
+            console.log("START: " + stdout);
+            console.log("DEPLOY SUCCESSFUL: " + launchURL);
+            res.send("ok");
+          }
+        ); // exec 2
+      }
+    ); // exec 1
+  }else{
+    res.send("FAIL: no project name.");
+  }
+});
+app.post("/createFile", function(req, res){
+  console.log("CREATE FILE ["+req.user.displayName+"]");
+  if(req.query.project && req.query.project.length > 2 && req.body.fname){
+    var projectName = req.query.project.replace(/\.\./g, "");
+    var fname = req.body.fname;
+    if(!fname || fname.length < 2){
+      return;
+    }
+    var safeFName = fname.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+    var path = EDITABLE_APPS_DIR+projectName+"/"+safeFName;
+    try{
+      fs.realpathSync(path);
+      console.log("file already exists.. no need to create it: " + path);
+      return res.send("FAIL: File already exists. No need to create it.");
+    }catch(ex){
+      console.log("file doesn't exist yet. creating it: " + path);
+      fs.writeFile(path, "", function(err) {
+        if(err) {
+          console.log(err);
+          return res.send("FAIL: Error creating new file.");
+        } else {
+          localFileIsMostRecent[projectName+"/"+safeFName] = true;  // mark file as saved with no pending changes.
+          console.log("FILE SAVED: " + safeFName);
+          res.send(safeFName);
+        }
+      });
+    }  
+  }else{
+    res.send("FAIL: no project and/or filename.");
+  }
+});
+app.post("/deleteFile", function(req, res){
+  console.log("DELETE FILE ["+req.user.displayName+"]");
+  if(req.query.project && req.query.project.length > 2 && req.body.fname){
+    var projectName = req.query.project.replace(/\.\./g, "");
+    var fname = req.body.fname;
+    if(!fname || fname.length < 2){
+      return;
+    }
+    var safeFName = fname.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+    var path = EDITABLE_APPS_DIR+projectName+"/"+safeFName;
+    if(usersInGroup[projectName+"/"+safeFName]){
+      console.log("Delete stopped, users still in file: "+path);
+      return res.send("FAIL: users still in file.");
+    }
+    try{
+      fs.realpathSync(path);
+      console.log("file exists.. delete it: " + path);
+      fs.unlink(path, function (err) {
+        if (err){
+          console.log(err);
+          return res.send("FAIL: could not delete file.");
+        }
+        console.log("successfully deleted: " + path);
+        return res.send(safeFName);
+      });
+    }catch(ex){
+      return res.send("FAIL: File doesn't exist. No need to delete it.");
+    }  
+  }else{
+    res.send("FAIL: no project and/or filename.");
+  }
+});
+app.post("/renameFile", function(req, res){
+  console.log("RENAME FILE ["+req.user.displayName+"]");
+  if(req.query.project && req.query.project.length > 2 && req.body.fname && req.body.newfname){
+    var projectName = req.query.project.replace(/\.\./g, "");
+    var fname = req.body.fname;
+    if(!fname || fname.length < 2){
+      return;
+    }
+    var newfname = req.body.newfname;
+    if(!newfname || newfname.length < 2){
+      return;
+    }
+    var safeFName = fname.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+    var safeNewFName = newfname.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+    var pathA = EDITABLE_APPS_DIR+projectName+"/"+safeFName;
+    var pathB = EDITABLE_APPS_DIR+projectName+"/"+safeNewFName;
+    try{
+      fs.realpathSync(pathA);
+      try{
+        fs.realpathSync(pathB);
+        // if pathB exists, don't do the rename -- it will copy over an existing file!
+        console.log("trying to rename file to something that already exists: " + pathA + " >> " + pathB);
+        return res.send("FAIL: Cannot rename a file to something that already exists.");
+      }catch(ex2){
+        // ok, all set!
+        //console.log("all set to rename file: " + pathA + " >> " + pathB);
+        fs.rename(pathA, pathB, function (err) {
+          if (err){
+            console.log(err);
+            return res.send("FAIL: Error renaming file.");
+          }
+          console.log("successfully renamed file ["+req.user.displayName+"]: " + pathA + " >> " + pathB);
+          return res.send(safeNewFName);
+        });
+      }
+    }catch(ex){
+      console.log("trying to rename a file that doesn't exist: " + pathA);
+      return res.send("FAIL: File doesn't exist. Cannot rename it.");
+    }
+  }else{
+    res.send("FAIL: no project and/or filename.");
+  }
+});
+app.post("/duplicateFile", function(req, res){
+  console.log("DUPLICATE FILE ["+req.user.displayName+"]");
+  if(req.query.project && req.query.project.length > 2 && req.body.fname && req.body.newfname){
+    var projectName = req.query.project.replace(/\.\./g, "");
+    var fname = req.body.fname;
+    if(!fname || fname.length < 2){
+      return;
+    }
+    var newfname = req.body.newfname;
+    if(!newfname || newfname.length < 2){
+      return;
+    }
+    var safeFName = fname.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+    var safeNewFName = newfname.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+    var pathA = EDITABLE_APPS_DIR+projectName+"/"+safeFName;
+    var pathB = EDITABLE_APPS_DIR+projectName+"/"+safeNewFName;
+    try{
+      fs.realpathSync(pathA);
+      try{
+        fs.realpathSync(pathB);
+        // if pathB exists, don't do the rename -- it will copy over an existing file!
+        console.log("trying to duplicate file to something that already exists: " + pathA + " >> " + pathB);
+        return res.send("FAIL: Cannot duplicate a file to something that already exists.");
+      }catch(ex2){
+        // ok, all set!
+        var is = fs.createReadStream(pathA);
+        var os = fs.createWriteStream(pathB);
+        util.pump(is, os, function(err){
+          if (err){
+            console.log(err);
+            return res.send("FAIL: Error duplicating file.");
+          }
+          console.log("successfully duplicated file ["+req.user.displayName+"]: " + pathA + " >> " + pathB);
+          return res.send(safeNewFName);
+        });
+      }
+    }catch(ex){
+      console.log("trying to duplicate a file that doesn't exist: " + pathA);
+      return res.send("FAIL: File doesn't exist. Cannot duplicate it.");
+    }
+  }else{
+    res.send("FAIL: no project and/or filename.");
+  }
+});
+app.get("/allUsersEditingProjectsIFrame", function(req, res){
+  var html = "<html></head><script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script><head><body><script>";
+  //html += "var u = "+JSON.stringify(nowUsersList)+";";
+  html += "function receiveMessage(event){var o = event.origin; var p = parent; $.get('/allUsersEditingProjects', function(data){p.postMessage(JSON.parse(data), o);});};";
+  html += "window.addEventListener('message', receiveMessage, false);";
+  html += "</script></body></html>";
+  res.send(html);
+});
+app.get("/allUsersEditingProjects", function(req, res){
+  var nowUsers = everyone.users || {}; //nowjs.server.connected || {};
+  var nowUsersList = [];
+  _.each(nowUsers, function(val, name){
+    var u = (val||{}).user || {};
+    var a = u.about || {};
+    a.grouplist = u.grouplist;
+    nowUsersList.push(a);
+  });
+  /*
+  var html = "<html></head><head><body><script>";
+  html += "var u = "+JSON.stringify(nowUsersList)+";";
+  html += "function receiveMessage(event){parent.postMessage(u, event.origin);};";
+  html += "window.addEventListener('message', receiveMessage, false);";
+  html += "</script></body></html>";
+  res.send(html);
+  */
+  res.send(JSON.stringify(nowUsersList));
+});
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+var localFileIsMostRecent = []; // an array of flags indicating if the file has been modified since last save.
+var nowjs     = require("now");
+var everyone  = nowjs.initialize(server);
+// ------ REALTIME NOWJS COLLABORATION ------
+//var nowcollab = require("../CHAOS/nowcollab");
+//nowcollab.initialize(nowjs, everyone, true);
+//-------------------------------------------
+nowjs.on('connect', function () { 
+  //console.log("CONNECT    > " + this.user.clientId);
+  this.user.teamID      = teamID;
+  if(this.now.teamID != ''){
+    this.user.teamID = this.now.teamID;
+  }
+  //console.log(this.user);
+  //console.log(everyone.users);
+  //console.log(" >> PROJECT="+this.user.teamID);
+  // hack to get out best guess at the user (since now.js doesn't give us the request object or session!);
+  var u = {}; //(Auth || {}).getUserFromCache(decodeURIComponent(this.user.cookie['_chaos.auth'])) || {};
+  // now populate it..
+  this.user.about       = {};
+  this.user.about._id   = u._id || 0;
+  this.user.about.name  = u.nameGiven || u.displayName  || this.user.cookie["_username"] || "???";
+  this.user.about.email = u.emailPrimary || "anon@chaoscollective.org";
+  // -----
+  this.now.name = this.user.about.name;
+  // -----
+  this.user.grouplist   = []; // file groups starts out empty.
+  addUserToFileGroup(this.user, ""); // the blank file group is the the team group.
+  this.now.c_confirmProject(this.user.teamID);
+});
+nowjs.on('disconnect', function () {
+  //console.log("DISCONNECT > "+this.user.clientId+" >> "+this.user.about.name+" <"+this.user.about.email+">"); 
+  //console.log("DISCONNECT > "+this.user.clientId+" >> "+this.now.name); 
+  var teamgroup  = nowjs.getGroup(this.user.teamID);
+  // remove user from all file groups.
+  if(this.user.grouplist !== undefined){
+    for(var i=this.user.grouplist.length-1; i>=0; i--){
+      var g = this.user.grouplist[i];
+      var fname = g.substring(g.indexOf("/")+1);
+      usersInGroupMinusMinus(g);
+      teamgroup.now.c_processUserFileEvent(fname, "leaveFile", this.user.clientId, usersInGroup[g]);
+    }
+  }
+  // finally, remove the user from the team group. (don't need this now since team is also in user.grouplist)
+  teamgroup.now.c_processUserEvent("leave", this.user.clientId, this.now.name);
+});
+//---------
+// NOW: Remote collab messages.
+everyone.now.s_sendCursorUpdate = function(fname, range, changedByUser){
+  var userObj = this.user;
+  var filegroup = nowjs.getGroup(userObj.teamID+"/"+fname);
+  //console.log(filegroup);
+  filegroup.now.c_updateCollabCursor(this.user.clientId, this.now.name, range, changedByUser);
+};
+everyone.now.s_sendDiffPatchesToCollaborators = function(fname, patches, crc32){
+  var userObj = this.user;
+  localFileIsMostRecent[userObj.teamID+"/"+fname] = false; // mark file as changed.
+  var filegroup = nowjs.getGroup(userObj.teamID+"/"+fname);
+  filegroup.now.c_updateWithDiffPatches(this.user.clientId, patches, crc32);
+};
+// NOW: Remote file tools.
+everyone.now.s_getLatestFileContentsAndJoinFileGroup = function(fname, fileRequesterCallback){
+  var callerID = this.user.clientId;
+  var userObj = this.user;
+  addUserToFileGroup(userObj, fname);
+  //removeUserFromAllFileGroupsAndAddToThis(origUser, fname);
+  if(localFileIsMostRecent[userObj.teamID+"/"+fname] === true || localFileIsMostRecent[userObj.teamID+"/"+fname] === undefined){
+    localFileFetch(userObj, fname, fileRequesterCallback);
+    //console.log("FILE FETCH: " + userObj.teamID + " >> " + fname + ", by user: " + (userObj.about.name || callerID));
+  }else{
+    console.log("FILE FETCH (passed to user): " + userObj.teamID + " >> " + fname + ", by user: " + callerID);
+    var filegroup = nowjs.getGroup(userObj.teamID+"/"+fname);
+    var users = filegroup.getUsers(function (users) {
+      var foundUser = false;
+      for (var i = 0; i < users.length; i++){ 
+        if(users[i] != callerID){
+          // this looks like a valid user to get the file from. :)
+          console.log("Trying to get file from: " + users[i]);
+          nowjs.getClient(users[i], function(){
+            if(this.now === undefined){
+              console.log("Undefined clientId for requestFullFileFromUserID (using local) >> " + users[i]);
+              localFileFetch(userObj, fname, fileRequesterCallback);
+            }else{
+              this.now.c_userRequestedFullFile(fname, callerID, fileRequesterCallback);
+            }
+          });
+          foundUser = true;
+          break;
+        }
+      }
+      if(!foundUser){
+        console.log("Flagged as changed, but no user with file: "+userObj.teamID+" >> "+fname+" >> FETCHING last saved.");
+        localFileFetch(userObj, fname, fileRequesterCallback);
+      }
+    });
+  }
+};
+everyone.now.s_saveUserFileContentsToServer = function(fname, fcontents, fileSaverCallback){
+  localFileSave(this.user, fname, fcontents, fileSaverCallback);
+};
+//-------
+// get rid of this is possible...
+everyone.now.s_requestFullFileFromUserID = function(fname, id, fileRequesterCallback){
+  var callerID = this.user.clientId;
+  var userObj = this.user;
+  var filegroup = nowjs.getGroup(userObj.teamID+"/"+fname);
+  filegroup.hasClient(id, function (bool) {
+    if (bool) {
+      //console.log("requesting full file. valid filegroup. :)");
+      nowjs.getClient(id, function(){
+        if(this.now === undefined){
+          console.log("Undefined clientId for requestFullFileFromUserID >> " + id);
+        }else{
+          this.now.c_userRequestedFullFile(fname, callerID, fileRequesterCallback);
+        }
+      });
+    }
+  });
+};
+//-------
+everyone.now.s_teamMessageBroadcast      = function(type, message){
+  var teamgroup  = nowjs.getGroup(this.user.teamID);
+  var scope      = "team";
+  var fromUserId = this.user.clientId;
+  var fromUserName = this.now.name;
+  teamgroup.now.c_processMessage(scope, type, message, fromUserId, fromUserName);
+};
+everyone.now.s_leaveFile                 = function(fname){
+  var teamgroup  = nowjs.getGroup(this.user.teamID);
+  var fromUserId = this.user.clientId;
+  removeUserFromFileGroup(this.user, fname);
+};
+everyone.now.s_sendUserEvent             = function(event){
+  var teamgroup  = nowjs.getGroup(this.user.teamID);
+  var fromUserId = this.user.clientId;
+  var fromUserName = this.now.name;
+  teamgroup.now.c_processUserEvent(event, fromUserId, fromUserName);
+};
+//-------
+everyone.now.s_getAllProjectsFiles = function(callback){
+  var team = this.user.teamID;
+  var projectRoot = EDITABLE_APPS_DIR+team;
+  var walker = walk.walk(projectRoot, {followLinks: false});
+  var filesAndInfo = [];
+  walker.on("names", function (root, nodeNamesArray) {
+    // use this to remove/sort files before doing the more expensive "stat" operation.
+    //console.log(root + " / " + nodeNamesArray);
+    for(var i=nodeNamesArray.length-1; i>=0; i--){
+      if(nodeNamesArray[i] == ".git" || nodeNamesArray[i] == "node_modules" || nodeNamesArray[i] == "_db"){
+        nodeNamesArray.splice(i, 1);
+      }
+    }
+  });
+  walker.on("file", function (root, fileStats, next) {
+    var rt = root.substring(projectRoot.length+1);
+    if(rt.length > 0){
+      rt += "/";
+    }
+    var fname = rt + fileStats.name;
+    var sz = fileSizeCache[team+"/"+fname];
+    if(sz === undefined){
+      // first time checking files size.. get it!
+      sz = fileStats.size;
+      fileSizeCache[team+"/"+fname] = sz;
+    }
+    var n = usersInGroup[team+"/"+fname];
+    if(n){
+      filesAndInfo.push([fname, n, sz]);
+    }else{
+      filesAndInfo.push([fname, 0, sz]);
+    }
+    next();
+  });
+  walker.on("end", function() {
+    console.log("Recursively listed project files for: " + team);
+    // indicate total team members online.
+    var n = usersInGroup[team];
+    if(n){
+      filesAndInfo.push(["", n]);
+    }else{
+      filesAndInfo.push(["", 0]);
+    }
+    callback(null, filesAndInfo);
+  });
+};
+everyone.now.s_createNewFile = function(newFilename, fileCreatorCallback){
+  localFileCreate(this.user, newFilename, fileCreatorCallback);
+};
+everyone.now.s_deleteFile    = function(fname, fileDeleterCallback){
+  var usersInFile = usersInGroup[this.user.teamID+fname];
+  if(usersInFile === undefined || usersInFile === 0){
+    localFileDelete(this.user, fname, fileDeleterCallback);
+  }else{
+    console.log("Cannot delete file. There are users in it! " + this.user.teamID+" >> "+fname);
+    fileCallback(fname, ["Cannot delete file. There are users in it!"]);
+  }
+};
+everyone.now.s_renameFile    = function(fname, newFName, fileRenamerCallback){
+  var usersInFile = usersInGroup[this.user.teamID+fname];
+  if(usersInFile === undefined || usersInFile === 0){
+    localFileRename(this.user, fname, newFName, fileRenamerCallback);
+  }else{
+    console.log("Cannot rename file. There are users in it! " + this.user.teamID+" >> "+fname);
+    fileCallback(fname, ["Cannot rename file. There are users in it!"]);
+  }
+};
+everyone.now.s_duplicateFile = function(fname, newFName, fileDuplicatorCallback){
+  localFileDuplicate(this.user, fname, newFName, fileDuplicatorCallback);
+};
+everyone.now.s_commitProject = function(txt, committerCallback){
+  var team = this.user.teamID;
+  console.log("committing project... >> " + team);
+  var teamProjGitPath = EDITABLE_APPS_DIR+team;
+  // this only needs done when a new repo is created...
+  //localRepoInitBare(teamProjGitPath, function(err){});
+  localRepoCommit(this.user, teamProjGitPath, txt, function(err){
+    if(err) { 
+       console.log(err);
+    }
+    committerCallback(err);
+  });
+};
+everyone.now.s_fetchProjectCommits = function(fetcherCallback){
+  var team = this.user.teamID;
+  console.log("fetching project commits... >> " + team);
+  var teamProjGitPath = EDITABLE_APPS_DIR+team;
+  localRepoFetchGitLog(this.user, teamProjGitPath, "", function(err, gitlog){
+    if(err) { 
+       console.log(err);
+       if(err && err[0] && err[0].indexOf("Not a git repository") > 0){
+         localRepoInitBare(teamProjGitPath, function(err){
+           if(err){
+             console.log("ERROR INITITIALIZING GIT REPO.");
+           }else{
+            console.log("Returned from git repo init.");
+           }
+         });
+       }
+    }
+    fetcherCallback(gitlog);
+  });
+};
+everyone.now.s_deployProject = function(txt, deployerCallback){
+  var team = this.user.teamID;
+  console.log("DEPLOYING Project >> " + team);
+  localProjectDeploy(this.user, deployerCallback);
+};
+//--------
+//
+// Git Repository management stuff.
+//
+function localRepoInitBare(gitRepoPath, callback){
+  var child = exec('git init', { 
+    encoding: 'utf8', 
+    timeout: 30000, 
+    maxBuffer: 200*1024, 
+    killSignal: 'SIGTERM',
+    cwd: gitRepoPath, 
+    env: null
+  }, function (error, stdout, stderr) {
+    if (error !== null) {
+      console.log('git init exec error: ' + error);
+    }
+    console.log("GIT: Init >> " + gitRepoPath);
+    callback(error);
+  });
+}
+function localRepoCommit(userObj, gitRepoPath, message, callback){
+  var safeMsg        = Utf8.encode(message).replace(/\"/g, "\\\"");
+  var authString     = userObj.about.name+" <"+userObj.about.email+">";
+  var safeAuthString = Utf8.encode(authString).replace(/\"/g, "\\\"");
+  console.log("GIT: Commit to  >> "+gitRepoPath+" by: "+safeAuthString);
+  var child = exec('git add .; git commit -a --allow-empty --allow-empty-message --author=\"'+safeAuthString+'\" -m \"'+safeMsg+'\";', { 
+    encoding: 'utf8', 
+    timeout: 30000, 
+    maxBuffer: 200*1024, 
+    killSignal: 'SIGTERM',
+    cwd: gitRepoPath, 
+    env: null
+  }, function (error, stdout, stderr) {
+    if (error !== null) {
+        console.log('exec error: ' + error);
+      }else{
+      // success! notify team members.
+      var teamgroup  = nowjs.getGroup(userObj.teamID);
+      var fromUserId = userObj.clientId;
+      teamgroup.now.c_processUserFileEvent("", "commitProject", fromUserId, 0, "", safeMsg);
+    }
+    callback(error);
+  });
+}
+function localRepoFetchGitLog(userObj, gitRepoPath, fname, fetcherCallback) {
+  // TODO: Make the filtering part of the git command, not an after thought with a ton of results.
+  // Seeing all checkpoints since the beginning of a project could lead to looking at many thousand results...
+  var authString      = userObj.about.name+" <"+userObj.about.email+">";
+  var safeAuthString  = Utf8.encode(authString).replace(/\"/g, "\\\"");
+  var maxInitialFetch = 10; // hardcoded max value so things don't get crazy until it's explicitly part of the git command...    
+  var maxResults      = 5;
+  var saveThisEntry   = false;
+  var filter          = null;
+  console.log("GIT: Fetch commit logs from  >> "+gitRepoPath+" by: "+safeAuthString);
+  var cmd = "git log -n"+maxInitialFetch+" --numstat --pretty=format:\"commit  %H%naname   %an%namail   %ae%nrdate   %ar%nutime   %at%ncnote   %s\" -- "+fname;
+  //console.log(cmd);
+  var child = exec(cmd, { 
+    encoding: 'utf8', 
+    timeout: 30000, 
+    maxBuffer: 200*1024, 
+    killSignal: 'SIGTERM',
+    cwd: gitRepoPath, 
+    env: null
+  }, 
+  function (error, stdout, stderr) {
+    if (error !== null) {
+      console.log('exec error: ' + error);
+      if(fetcherCallback){
+        fetcherCallback(error, null);
+      }
+    }else{
+      // success! notify team members.
+      var teamgroup  = nowjs.getGroup(userObj.teamID);
+      var fromUserId = userObj.clientId;
+      //teamgroup.now.c_processUserFileEvent("", "commitProject", fromUserId, 0, "", safeMsg);
+      console.log("***** STD OUT *****");
+      var logLines = stdout.split("\n");
+      //console.log(logLines);
+      var out = [];
+      for(var i=0; i<logLines.length; i++){
+        var line = logLines[i];
+        if(line.indexOf("commit") == 0){
+          // new entry.. first check if we've hit max entries
+          if(out.length >= maxResults){
+            break;
+          }
+          out.push({}); // start a new array
+          out[out.length-1]['commit'] = line.substring(8);
+          saveThisEntry = true;
+        }
+        if(saveThisEntry){
+          if(line.indexOf("aname") == 0){
+            out[out.length-1]['auth_name'] = line.substring(8);
+          }
+          if(line.indexOf("amail") == 0){
+            out[out.length-1]['auth_email'] = line.substring(8);
+          }
+          if(line.indexOf("rdate") == 0){
+            out[out.length-1]['time_relative'] = line.substring(8);
+          }
+          if(line.indexOf("utime") == 0){
+            out[out.length-1]['time_epoch'] = line.substring(8);
+          }
+          if(line.indexOf("cnote") == 0){
+            var comment = line.substring(8);
+            out[out.length-1]['comment'] = comment;
+            if(filter != null){
+              if(comment.indexOf(filter) < 0){
+                out.pop();
+                saveThisEntry = false;
+              }
+            }
+          }
+          if(line.length > 0 && !isNaN(line.charAt(0)) ){
+            //echo "numeric line.. counting changes!\n";
+            var numArray = line.split("\t");
+            if(numArray.length >= 2 && !isNaN(numArray[0]) && !isNaN(numArray[1]) && numArray[0] != "-" && numArray[1] != "-"){
+              out[out.length-1]['linesAdded']   = numArray[0];
+              out[out.length-1]['linesDeleted'] = numArray[1];
+            }
+          }
+        }
+      }
+      //console.log(out);
+      fetcherCallback(null, out);
+    }
+  });
+}
+//
+// group management stuff.
+//
+var usersInGroup = {};
+function addUserToFileGroup(userObj, fname){
+  var groupname = userObj.teamID;
+  if(fname  && fname !== ""){
+    groupname += "/" + fname;
+  }
+  //console.log("ADD TO GROUP: " + groupname);
+  //console.log("        team: " + userObj.teamID);
+  //console.log("       fname: " + fname);
+  var g = nowjs.getGroup(groupname);
+  if(!g.users[userObj.clientId]){
+    // user not in group yet.
+    // add to NOW group.
+    g.addUser(userObj.clientId);
+    // add to local group.
+    userObj.grouplist.push(groupname);
+    // keep track locally of users in group.
+    usersInGroupPlusPlus(groupname);
+    if(fname.length > 0){
+      var teamgroup = nowjs.getGroup(userObj.teamID);
+      teamgroup.now.c_processUserFileEvent(fname, "joinFile", userObj.clientId, usersInGroup[groupname]);
+    }
+    //console.log("Added user " + user + " to group: " + group);
+  }else{
+    console.log("no need to add user " + userObj.clientId + " to group: " + groupname + " ???");
+    //console.log(g.users[userObj.clientId]);
+  }
+}
+function removeUserFromFileGroup(userObj, fname){
+  var groupname = userObj.teamID;
+  if(fname  && fname !== ""){
+    groupname += "/" + fname;
+  }
+  var g = nowjs.getGroup(groupname);
+  if(g.users[userObj.clientId]){
+    // user was in group.
+    // remove user from NOW group.
+    g.removeUser(userObj.clientId);
+    // remove user from local group.
+    for(var i=userObj.grouplist.length; i>=0; i--){
+      if(userObj.grouplist[i] == groupname){
+        userObj.grouplist.splice(i, 1);
+      }
+    }
+    // keep track locally of users in group.
+    usersInGroupMinusMinus(groupname);
+    if(fname.length > 0){
+      var teamgroup = nowjs.getGroup(userObj.teamID);
+      teamgroup.now.c_processUserFileEvent(fname, "leaveFile", userObj.clientId, usersInGroup[groupname]);
+    }
+    //console.log("Removed user " + userObj.clientId + " from: " + groupname);
+  }else{
+    //console.log(g);
+    //console.log("no need to remove user " + userObj.clientId + " from group: " + groupname + " ???");
+  }
+}
+function usersInGroupPlusPlus(group){
+  if(usersInGroup[group]){
+    usersInGroup[group]++;
+  }else{
+    usersInGroup[group] = 1;
+  }
+  //console.log("UsersInGroup(+): " + group + " >> " + usersInGroup[group]);
+}
+function usersInGroupMinusMinus(group){
+  if(usersInGroup[group]){
+    usersInGroup[group]--;
+  }else{
+    usersInGroup[group] = 0;
+  }
+  //console.log("UsersInGroup(-): " + group + " >> " + usersInGroup[group]);
+}
+//
+// local file stuff
+//
+var fileSizeCache  = {};
+var fileTodoCache  = {};
+var fileFixMeCache = {};
+function localFileFetch(userObj, fname, fileRequesterCallback){
+  var team = userObj.teamID;
+  fs.readFile(EDITABLE_APPS_DIR+team+"/"+fname, "utf-8", function (err, data) {
+    if (err){
+      console.warn("couldn't open: "+team+"/"+fname);
+    }
+    fileRequesterCallback(fname, data, err, true);
+  });
+}
+function localFileSave(userObj, fname, fcontents, fileSaverCallback){
+  var team = userObj.teamID;
+  fs.writeFile(EDITABLE_APPS_DIR+team+"/"+fname, fcontents, function(err) {
+      if(err) {
+          console.log(err);
+      } else {
+        localFileIsMostRecent[team+"/"+fname] = true;  // mark file as saved with no pending changes.
+        console.log("FILE SAVED: " + team+"/"+fname);
+        var filegroup = nowjs.getGroup(team+"/"+fname);
+        filegroup.now.c_fileStatusChanged(fname, "saved");
+        var sz = fcontents.length;
+        fileSizeCache[team+"/"+fname] = sz;
+        if(sz < 1000000){
+          fileTodoCache[team+"/"+fname]  = occurrences(fcontents, "TODO");
+          fileFixMeCache[team+"/"+fname] = occurrences(fcontents, "FIXME");
+        }
+      }
+    fileSaverCallback(err);
+  });
+}
+// ---------
+function localFileCreate(userObj, fname, fileCreatorCallback){
+  var team = userObj.teamID;
+  if(!fname){
+    return;
+  }
+  var safeFName = fname.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+  var path = EDITABLE_APPS_DIR+team+"/"+safeFName;
+  try{
+    fs.realpathSync(path);
+    console.log("file already exists.. no need to create it: " + path);
+    fileCreatorCallback(safeFName, ["File already exists. No need to create it."]);
+  }catch(ex){
+    console.log("file doesn't exist yet. creating it: " + path);
+    fs.writeFile(path, "", function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+        localFileIsMostRecent[teamID+safeFName] = true;  // mark file as saved with no pending changes.
+            console.log("FILE SAVED: " + safeFName);
+        var filegroup = nowjs.getGroup(teamID+safeFName);
+        filegroup.now.c_fileStatusChanged(safeFName, "saved");
+        }
+      var teamgroup  = nowjs.getGroup(userObj.teamID);
+      var fromUserId = userObj.clientId;
+      teamgroup.now.c_processUserFileEvent(safeFName, "createFile", fromUserId, 0);
+      fileCreatorCallback(safeFName, err);
+    });
+  }  
+}
+function localFileDelete(userObj, fname, fileDeleterCallback){
+  var team = userObj.teamID;
+  if(!fname){
+    return;
+  }
+  var safeFName = fname.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+  var path = EDITABLE_APPS_DIR+team+"/"+safeFName;
+  try{
+    fs.realpathSync(path);
+    console.log("all set to delete file: " + path);
+    fs.unlink(path, function (err) {
+        if (err) throw err;
+        console.log("successfully deleted: " + path);
+      var teamgroup  = nowjs.getGroup(userObj.teamID);
+      var fromUserId = userObj.clientId;
+      teamgroup.now.c_processUserFileEvent(safeFName, "deleteFile", fromUserId, 0);
+      fileDeleterCallback(safeFName, []);
+    });
+  }catch(ex){
+    console.log("trying to delete file, but it doesn't exist: " + path);
+    fileDeleterCallback(safeFName, ["File doesn't exist. No need to delete it."]);
+  }
+}
+function localFileRename(userObj, fname, newFName, fileRenamerCallback){
+  var team = userObj.teamID;
+  if(!fname || !newFName){
+    return;
+  }
+  var safeFName = fname.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+  var safeNewFName = newFName.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+  var pathA = EDITABLE_APPS_DIR+team+"/"+safeFName;
+  var pathB = EDITABLE_APPS_DIR+team+"/"+safeNewFName;
+  try{
+    fs.realpathSync(pathA);
+    try{
+      fs.realpathSync(pathB);
+      // if pathB exists, don't do the rename -- it will copy over an existing file!
+      console.log("trying to rename file to something that already exists: " + pathA + " >> " + pathB);
+      fileRenamerCallback(safeFName, ["Cannot rename a file to something that already exists."]);
+    }catch(ex2){
+      // ok, all set!
+      console.log("all set to rename file: " + pathA + " >> " + pathB);
+      fs.rename(pathA, pathB, function (err) {
+        if (err) throw err;
+          console.log("successfully renamed file: " + pathA + " >> " + pathB);
+        var teamgroup  = nowjs.getGroup(userObj.teamID);
+        var fromUserId = userObj.clientId;
+        teamgroup.now.c_processUserFileEvent(safeFName, "renameFile", fromUserId, 0, safeNewFName);
+        fileRenamerCallback(safeFName, []);
+      });
+    }
+  }catch(ex){
+    console.log("trying to rename a file that doesn't exist: " + pathA);
+    fileRenamerCallback(safeFName, ["File doesn't exist. Cannot rename it."]);
+  }
+}
+function localFileDuplicate(userObj, fname, newFName, fileDuplicatorCallback){
+  var team = userObj.teamID;
+  if(!fname || !newFName){
+    return;
+  }
+  var safeFName = fname.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+  var safeNewFName = newFName.split("..").join("").replace(/[^a-zA-Z_\.\-0-9\/\(\)]+/g, '');
+  var pathA = EDITABLE_APPS_DIR+team+"/"+safeFName;
+  var pathB = EDITABLE_APPS_DIR+team+"/"+safeNewFName;
+  try{
+    fs.realpathSync(pathA);
+    try{
+      fs.realpathSync(pathB);
+      // if pathB exists, don't do the rename -- it will copy over an existing file!
+      console.log("trying to duplicate file but it already exists: " + pathA + " >> " + pathB);
+      fileDuplicatorCallback(safeFName, ["Cannot duplicate a file to something that already exists."]);
+    }catch(ex2){
+      // ok, all set!
+      console.log("all set to duplicate file: " + pathA + " >> " + pathB);
+      var is = fs.createReadStream(pathA);
+      var os = fs.createWriteStream(pathB);
+          util.pump(is, os, function(err){
+        if (err) throw err;
+          console.log("successfully duplicated file: " + pathA + " >> " + pathB);
+        var teamgroup  = nowjs.getGroup(userObj.teamID);
+        var fromUserId = userObj.clientId;
+        teamgroup.now.c_processUserFileEvent(safeFName, "duplicateFile", fromUserId, 0, safeNewFName);
+        fileDuplicatorCallback(safeFName, []);
+      });
+    }
+  }catch(ex){
+    console.log("trying to dupicate a file that doesn't exist: " + pathA);
+    fileDuplicatorCallback(safeFName, ["File doesn't exist. Cannot duplicate it."]);
+  }
+}
+//
+// DEPLOY / LAUNCH! :D
+//
+function localProjectDeploy(userObj, deployerCallback){
+  var team       = userObj.teamID;
+  var fromUserId = userObj.clientId;
+  var projPath   = EDITABLE_APPS_DIR+team;
+  var projectName = team;
+  
+  console.log("DEPLOYMENT PLACEHOLDER: " + projectName);
+
+  exec('stop node_'+userObj.teamID, { 
+      encoding: 'utf8', 
+      timeout: 30000, 
+      maxBuffer: 200*1024, 
+      killSignal: 'SIGTERM',
+      env: null
+    }, 
+    function (error, stdout, stderr) {
+      if (error !== null) {
+        console.log('exec error: ' + error);
+      }
+      console.log("STOP: " + stdout);
+      exec('start node_'+userObj.teamID, { 
+          encoding: 'utf8', 
+          timeout: 30000, 
+          maxBuffer: 200*1024, 
+          killSignal: 'SIGTERM',
+          env: null
+        }, 
+        function (error, stdout, stderr) {
+          if (error !== null) {
+            console.log('exec error: ' + error);
+          }
+          var launchURL = "http://"+userObj.teamID+".chaoscollective.org/";
+          console.log("START: " + stdout);
+          console.log("DEPLOY SUCCESSFUL: " + launchURL);
+          setTimeout(function(){
+            var teamgroup  = nowjs.getGroup(team);
+            teamgroup.now.c_processUserFileEvent("", "launchProject", fromUserId, 0);
+          }, 50);
+          setTimeout(function(){
+            deployerCallback(null, launchURL);  
+          }, 1500);    
+        }
+      ); // exec 2
+    }
+  ); // exec 1
+
+  
+  /*
+  var haibuApp = {
+    "user": team,
+    "name": projectName,
+    "domain": projectName+".chaoscollective.org",
+    "repository": {
+      "type": "local",
+      "directory": projPath,
+    },
+    "scripts": {
+      "start": "server.js"
+    }
+  };
+  // Attempt to clean up an existing application
+  haibuClient.clean(haibuApp, function (err, result) {
+    if (err) {
+      console.log('Error cleaning app during deployment of: ' + haibuApp.name);
+      deployerCallback([err]);
+      //return eyes.inspect(err);
+    }else{
+      console.log('Successfully cleaned app: ' + haibuApp.name);
+      haibuClient.start(haibuApp, function (err, result) {
+        if (err) {
+          console.log('Error starting app during deployment of: ' + haibuApp.name);
+          deployerCallback([err]);
+          //return eyes.inspect(err);
+        }else{
+          console.log("DEPLOYMENT SUCCESSFUL: " + haibuApp.name);
+          console.log(result);
+          var launchURL = "http://"+result.drone.host+":"+result.drone.port+"/";
+          deployerCallback(null, launchURL);
+        }
+      });
+    }
+  });
+  */
+}
+//
+// UTF-8 data encode/decode: http://www.webtoolkit.info/
+var Utf8 = {
+  encode : function (string) { // public method for url encoding
+    string = string.replace(/\r\n/g,"\n");
+    var utftext = "";
+    for (var n = 0; n < string.length; n++) {
+      var c = string.charCodeAt(n);
+      if (c < 128) {
+        utftext += String.fromCharCode(c);
+      }
+      else if((c > 127) && (c < 2048)) {
+        utftext += String.fromCharCode((c >> 6) | 192);
+        utftext += String.fromCharCode((c & 63) | 128);
+      }
+      else {
+        utftext += String.fromCharCode((c >> 12) | 224);
+        utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+        utftext += String.fromCharCode((c & 63) | 128);
+      }
+    }
+    return utftext;
+  },
+  decode : function (utftext) { // public method for url decoding
+    var string = "";
+    var i = 0;
+    var c = c1 = c2 = 0;
+    while ( i < utftext.length ) {
+      c = utftext.charCodeAt(i);
+      if (c < 128) {
+        string += String.fromCharCode(c);
+        i++;
+      }
+      else if((c > 191) && (c < 224)) {
+        c2 = utftext.charCodeAt(i+1);
+        string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+        i += 2;
+      }
+      else {
+        c2 = utftext.charCodeAt(i+1);
+        c3 = utftext.charCodeAt(i+2);
+        string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+        i += 3;
+      }
+    }
+    return string;
+  }
+}
+
+function occurrences(string, substring){
+  var n=0;
+  var pos=0;
+  while(true){
+    pos=string.indexOf(substring,pos);
+    if(pos!=-1){ n++; pos+=substring.length;}
+    else{break;}
+  }
+  return(n);
+}
+
+//
+//
+//
+console.log("| *. Node up and running .* |");
+console.log("'---------------------------'");
+
+
+</textarea>
+<textarea id='codeExD'>
+'use strict';
+
+// ANGULAR.JS
+
+////////////////////////////////////
+
+/**
+ * @ngdoc function
+ * @name angular.lowercase
+ * @function
+ *
+ * @description Converts the specified string to lowercase.
+ * @param {string} string String to be converted to lowercase.
+ * @returns {string} Lowercased string.
+ */
+var lowercase = function(string){return isString(string) ? string.toLowerCase() : string;};
+
+
+/**
+ * @ngdoc function
+ * @name angular.uppercase
+ * @function
+ *
+ * @description Converts the specified string to uppercase.
+ * @param {string} string String to be converted to uppercase.
+ * @returns {string} Uppercased string.
+ */
+var uppercase = function(string){return isString(string) ? string.toUpperCase() : string;};
+
+
+var manualLowercase = function(s) {
+  return isString(s)
+      ? s.replace(/[A-Z]/g, function(ch) {return fromCharCode(ch.charCodeAt(0) | 32);})
+      : s;
+};
+var manualUppercase = function(s) {
+  return isString(s)
+      ? s.replace(/[a-z]/g, function(ch) {return fromCharCode(ch.charCodeAt(0) & ~32);})
+      : s;
+};
+
+
+// String#toLowerCase and String#toUpperCase don't produce correct results in browsers with Turkish
+// locale, for this reason we need to detect this case and redefine lowercase/uppercase methods
+// with correct but slower alternatives.
+if ('i' !== 'I'.toLowerCase()) {
+  lowercase = manualLowercase;
+  uppercase = manualUppercase;
+}
+
+function fromCharCode(code) {return String.fromCharCode(code);}
+
+
+var Error             = window.Error,
+    /** holds major version number for IE or NaN for real browsers */
+    msie              = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1]),
+    jqLite,           // delay binding since jQuery could be loaded after us.
+    jQuery,           // delay binding
+    slice             = [].slice,
+    push              = [].push,
+    toString          = Object.prototype.toString,
+
+    /** @name angular */
+    angular           = window.angular || (window.angular = {}),
+    angularModule,
+    nodeName_,
+    uid               = ['0', '0', '0'];
+
+/**
+ * @ngdoc function
+ * @name angular.forEach
+ * @function
+ *
+ * @description
+ * Invokes the `iterator` function once for each item in `obj` collection, which can be either an
+ * object or an array. The `iterator` function is invoked with `iterator(value, key)`, where `value`
+ * is the value of an object property or an array element and `key` is the object property key or
+ * array element index. Specifying a `context` for the function is optional.
+ *
+ * Note: this function was previously known as `angular.foreach`.
+ *
+   <pre>
+     var values = {name: 'misko', gender: 'male'};
+     var log = [];
+     angular.forEach(values, function(value, key){
+       this.push(key + ': ' + value);
+     }, log);
+     expect(log).toEqual(['name: misko', 'gender:male']);
+   </pre>
+ *
+ * @param {Object|Array} obj Object to iterate over.
+ * @param {Function} iterator Iterator function.
+ * @param {Object=} context Object to become context (`this`) for the iterator function.
+ * @returns {Object|Array} Reference to `obj`.
+ */
+function forEach(obj, iterator, context) {
+  var key;
+  if (obj) {
+    if (isFunction(obj)){
+      for (key in obj) {
+        if (key != 'prototype' && key != 'length' && key != 'name' && obj.hasOwnProperty(key)) {
+          iterator.call(context, obj[key], key);
+        }
+      }
+    } else if (obj.forEach && obj.forEach !== forEach) {
+      obj.forEach(iterator, context);
+    } else if (isObject(obj) && isNumber(obj.length)) {
+      for (key = 0; key < obj.length; key++)
+        iterator.call(context, obj[key], key);
+    } else {
+      for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          iterator.call(context, obj[key], key);
+        }
+      }
+    }
+  }
+  return obj;
+}
+
+function sortedKeys(obj) {
+  var keys = [];
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      keys.push(key);
+    }
+  }
+  return keys.sort();
+}
+
+function forEachSorted(obj, iterator, context) {
+  var keys = sortedKeys(obj);
+  for ( var i = 0; i < keys.length; i++) {
+    iterator.call(context, obj[keys[i]], keys[i]);
+  }
+  return keys;
+}
+
+
+/**
+ * when using forEach the params are value, key, but it is often useful to have key, value.
+ * @param {function(string, *)} iteratorFn
+ * @returns {function(*, string)}
+ */
+function reverseParams(iteratorFn) {
+  return function(value, key) { iteratorFn(key, value) };
+}
+
+/**
+ * A consistent way of creating unique IDs in angular. The ID is a sequence of alpha numeric
+ * characters such as '012ABC'. The reason why we are not using simply a number counter is that
+ * the number string gets longer over time, and it can also overflow, where as the the nextId
+ * will grow much slower, it is a string, and it will never overflow.
+ *
+ * @returns an unique alpha-numeric string
+ */
+function nextUid() {
+  var index = uid.length;
+  var digit;
+
+  while(index) {
+    index--;
+    digit = uid[index].charCodeAt(0);
+    if (digit == 57 /*'9'*/) {
+      uid[index] = 'A';
+      return uid.join('');
+    }
+    if (digit == 90  /*'Z'*/) {
+      uid[index] = '0';
+    } else {
+      uid[index] = String.fromCharCode(digit + 1);
+      return uid.join('');
+    }
+  }
+  uid.unshift('0');
+  return uid.join('');
+}
+
+/**
+ * @ngdoc function
+ * @name angular.extend
+ * @function
+ *
+ * @description
+ * Extends the destination object `dst` by copying all of the properties from the `src` object(s)
+ * to `dst`. You can specify multiple `src` objects.
+ *
+ * @param {Object} dst Destination object.
+ * @param {...Object} src Source object(s).
+ */
+function extend(dst) {
+  forEach(arguments, function(obj){
+    if (obj !== dst) {
+      forEach(obj, function(value, key){
+        dst[key] = value;
+      });
+    }
+  });
+  return dst;
+}
+
+function int(str) {
+  return parseInt(str, 10);
+}
+
+
+function inherit(parent, extra) {
+  return extend(new (extend(function() {}, {prototype:parent}))(), extra);
+}
+
+
+/**
+ * @ngdoc function
+ * @name angular.noop
+ * @function
+ *
+ * @description
+ * A function that performs no operations. This function can be useful when writing code in the
+ * functional style.
+   <pre>
+     function foo(callback) {
+       var result = calculateResult();
+       (callback || angular.noop)(result);
+     }
+   </pre>
+ */
+function noop() {}
+noop.$inject = [];
+
+
+/**
+ * @ngdoc function
+ * @name angular.identity
+ * @function
+ *
+ * @description
+ * A function that returns its first argument. This function is useful when writing code in the
+ * functional style.
+ *
+   <pre>
+     function transformer(transformationFn, value) {
+       return (transformationFn || identity)(value);
+     };
+   </pre>
+ */
+function identity($) {return $;}
+identity.$inject = [];
+
+
+function valueFn(value) {return function() {return value;};}
+
+/**
+ * @ngdoc function
+ * @name angular.isUndefined
+ * @function
+ *
+ * @description
+ * Determines if a reference is undefined.
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is undefined.
+ */
+function isUndefined(value){return typeof value == 'undefined';}
+
+
+/**
+ * @ngdoc function
+ * @name angular.isDefined
+ * @function
+ *
+ * @description
+ * Determines if a reference is defined.
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is defined.
+ */
+function isDefined(value){return typeof value != 'undefined';}
+
+
+/**
+ * @ngdoc function
+ * @name angular.isObject
+ * @function
+ *
+ * @description
+ * Determines if a reference is an `Object`. Unlike `typeof` in JavaScript, `null`s are not
+ * considered to be objects.
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is an `Object` but not `null`.
+ */
+function isObject(value){return value != null && typeof value == 'object';}
+
+
+/**
+ * @ngdoc function
+ * @name angular.isString
+ * @function
+ *
+ * @description
+ * Determines if a reference is a `String`.
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is a `String`.
+ */
+function isString(value){return typeof value == 'string';}
+
+
+/**
+ * @ngdoc function
+ * @name angular.isNumber
+ * @function
+ *
+ * @description
+ * Determines if a reference is a `Number`.
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is a `Number`.
+ */
+function isNumber(value){return typeof value == 'number';}
+
+
+/**
+ * @ngdoc function
+ * @name angular.isDate
+ * @function
+ *
+ * @description
+ * Determines if a value is a date.
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is a `Date`.
+ */
+function isDate(value){
+  return toString.apply(value) == '[object Date]';
+}
+
+
+/**
+ * @ngdoc function
+ * @name angular.isArray
+ * @function
+ *
+ * @description
+ * Determines if a reference is an `Array`.
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is an `Array`.
+ */
+function isArray(value) {
+  return toString.apply(value) == '[object Array]';
+}
+
+
+/**
+ * @ngdoc function
+ * @name angular.isFunction
+ * @function
+ *
+ * @description
+ * Determines if a reference is a `Function`.
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is a `Function`.
+ */
+function isFunction(value){return typeof value == 'function';}
+
+
+/**
+ * Checks if `obj` is a window object.
+ *
+ * @private
+ * @param {*} obj Object to check
+ * @returns {boolean} True if `obj` is a window obj.
+ */
+function isWindow(obj) {
+  return obj && obj.document && obj.location && obj.alert && obj.setInterval;
+}
+
+
+function isScope(obj) {
+  return obj && obj.$evalAsync && obj.$watch;
+}
+
+
+function isFile(obj) {
+  return toString.apply(obj) === '[object File]';
+}
+
+
+function isBoolean(value) {
+  return typeof value == 'boolean';
+}
+
+
+function trim(value) {
+  return isString(value) ? value.replace(/^\s*/, '').replace(/\s*$/, '') : value;
+}
+
+/**
+ * @ngdoc function
+ * @name angular.isElement
+ * @function
+ *
+ * @description
+ * Determines if a reference is a DOM element (or wrapped jQuery element).
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is a DOM element (or wrapped jQuery element).
+ */
+function isElement(node) {
+  return node &&
+    (node.nodeName  // we are a direct element
+    || (node.bind && node.find));  // we have a bind and find method part of jQuery API
+}
+
+/**
+ * @param str 'key1,key2,...'
+ * @returns {object} in the form of {key1:true, key2:true, ...}
+ */
+function makeMap(str){
+  var obj = {}, items = str.split(","), i;
+  for ( i = 0; i < items.length; i++ )
+    obj[ items[i] ] = true;
+  return obj;
+}
+
+
+if (msie < 9) {
+  nodeName_ = function(element) {
+    element = element.nodeName ? element : element[0];
+    return (element.scopeName && element.scopeName != 'HTML')
+      ? uppercase(element.scopeName + ':' + element.nodeName) : element.nodeName;
+  };
+} else {
+  nodeName_ = function(element) {
+    return element.nodeName ? element.nodeName : element[0].nodeName;
+  };
+}
+
+
+function map(obj, iterator, context) {
+  var results = [];
+  forEach(obj, function(value, index, list) {
+    results.push(iterator.call(context, value, index, list));
+  });
+  return results;
+}
+
+
+/**
+ * @description
+ * Determines the number of elements in an array, the number of properties an object has, or
+ * the length of a string.
+ *
+ * Note: This function is used to augment the Object type in Angular expressions. See
+ * {@link angular.Object} for more information about Angular arrays.
+ *
+ * @param {Object|Array|string} obj Object, array, or string to inspect.
+ * @param {boolean} [ownPropsOnly=false] Count only "own" properties in an object
+ * @returns {number} The size of `obj` or `0` if `obj` is neither an object nor an array.
+ */
+function size(obj, ownPropsOnly) {
+  var size = 0, key;
+
+  if (isArray(obj) || isString(obj)) {
+    return obj.length;
+  } else if (isObject(obj)){
+    for (key in obj)
+      if (!ownPropsOnly || obj.hasOwnProperty(key))
+        size++;
+  }
+
+  return size;
+}
+
+
+function includes(array, obj) {
+  return indexOf(array, obj) != -1;
+}
+
+function indexOf(array, obj) {
+  if (array.indexOf) return array.indexOf(obj);
+
+  for ( var i = 0; i < array.length; i++) {
+    if (obj === array[i]) return i;
+  }
+  return -1;
+}
+
+function arrayRemove(array, value) {
+  var index = indexOf(array, value);
+  if (index >=0)
+    array.splice(index, 1);
+  return value;
+}
+
+function isLeafNode (node) {
+  if (node) {
+    switch (node.nodeName) {
+    case "OPTION":
+    case "PRE":
+    case "TITLE":
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * @ngdoc function
+ * @name angular.copy
+ * @function
+ *
+ * @description
+ * Creates a deep copy of `source`, which should be an object or an array.
+ *
+ * * If no destination is supplied, a copy of the object or array is created.
+ * * If a destination is provided, all of its elements (for array) or properties (for objects)
+ *   are deleted and then all elements/properties from the source are copied to it.
+ * * If  `source` is not an object or array, `source` is returned.
+ *
+ * Note: this function is used to augment the Object type in Angular expressions. See
+ * {@link ng.$filter} for more information about Angular arrays.
+ *
+ * @param {*} source The source that will be used to make a copy.
+ *                   Can be any type, including primitives, `null`, and `undefined`.
+ * @param {(Object|Array)=} destination Destination into which the source is copied. If
+ *     provided, must be of the same type as `source`.
+ * @returns {*} The copy or updated `destination`, if `destination` was specified.
+ */
+function copy(source, destination){
+  if (isWindow(source) || isScope(source)) throw Error("Can't copy Window or Scope");
+  if (!destination) {
+    destination = source;
+    if (source) {
+      if (isArray(source)) {
+        destination = copy(source, []);
+      } else if (isDate(source)) {
+        destination = new Date(source.getTime());
+      } else if (isObject(source)) {
+        destination = copy(source, {});
+      }
+    }
+  } else {
+    if (source === destination) throw Error("Can't copy equivalent objects or arrays");
+    if (isArray(source)) {
+      while(destination.length) {
+        destination.pop();
+      }
+      for ( var i = 0; i < source.length; i++) {
+        destination.push(copy(source[i]));
+      }
+    } else {
+      forEach(destination, function(value, key){
+        delete destination[key];
+      });
+      for ( var key in source) {
+        destination[key] = copy(source[key]);
+      }
+    }
+  }
+  return destination;
+}
+
+/**
+ * Create a shallow copy of an object
+ */
+function shallowCopy(src, dst) {
+  dst = dst || {};
+
+  for(var key in src) {
+    if (src.hasOwnProperty(key) && key.substr(0, 2) !== '$$') {
+      dst[key] = src[key];
+    }
+  }
+
+  return dst;
+}
+
+
+/**
+ * @ngdoc function
+ * @name angular.equals
+ * @function
+ *
+ * @description
+ * Determines if two objects or two values are equivalent. Supports value types, arrays and
+ * objects.
+ *
+ * Two objects or values are considered equivalent if at least one of the following is true:
+ *
+ * * Both objects or values pass `===` comparison.
+ * * Both objects or values are of the same type and all of their properties pass `===` comparison.
+ * * Both values are NaN. (In JavasScript, NaN == NaN => false. But we consider two NaN as equal)
+ *
+ * During a property comparision, properties of `function` type and properties with names
+ * that begin with `$` are ignored.
+ *
+ * Scope and DOMWindow objects are being compared only be identify (`===`).
+ *
+ * @param {*} o1 Object or value to compare.
+ * @param {*} o2 Object or value to compare.
+ * @returns {boolean} True if arguments are equal.
+ */
+function equals(o1, o2) {
+  if (o1 === o2) return true;
+  if (o1 === null || o2 === null) return false;
+  if (o1 !== o1 && o2 !== o2) return true; // NaN === NaN
+  var t1 = typeof o1, t2 = typeof o2, length, key, keySet;
+  if (t1 == t2) {
+    if (t1 == 'object') {
+      if (isArray(o1)) {
+        if ((length = o1.length) == o2.length) {
+          for(key=0; key<length; key++) {
+            if (!equals(o1[key], o2[key])) return false;
+          }
+          return true;
+        }
+      } else if (isDate(o1)) {
+        return isDate(o2) && o1.getTime() == o2.getTime();
+      } else {
+        if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2)) return false;
+        keySet = {};
+        for(key in o1) {
+          if (key.charAt(0) !== '$' && !isFunction(o1[key]) && !equals(o1[key], o2[key])) {
+            return false;
+          }
+          keySet[key] = true;
+        }
+        for(key in o2) {
+          if (!keySet[key] && key.charAt(0) !== '$' && !isFunction(o2[key])) return false;
+        }
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+
+function concat(array1, array2, index) {
+  return array1.concat(slice.call(array2, index));
+}
+
+function sliceArgs(args, startIndex) {
+  return slice.call(args, startIndex || 0);
+}
+
+
+/**
+ * @ngdoc function
+ * @name angular.bind
+ * @function
+ *
+ * @description
+ * Returns a function which calls function `fn` bound to `self` (`self` becomes the `this` for
+ * `fn`). You can supply optional `args` that are are prebound to the function. This feature is also
+ * known as [function currying](http://en.wikipedia.org/wiki/Currying).
+ *
+ * @param {Object} self Context which `fn` should be evaluated in.
+ * @param {function()} fn Function to be bound.
+ * @param {...*} args Optional arguments to be prebound to the `fn` function call.
+ * @returns {function()} Function that wraps the `fn` with all the specified bindings.
+ */
+function bind(self, fn) {
+  var curryArgs = arguments.length > 2 ? sliceArgs(arguments, 2) : [];
+  if (isFunction(fn) && !(fn instanceof RegExp)) {
+    return curryArgs.length
+      ? function() {
+          return arguments.length
+            ? fn.apply(self, curryArgs.concat(slice.call(arguments, 0)))
+            : fn.apply(self, curryArgs);
+        }
+      : function() {
+          return arguments.length
+            ? fn.apply(self, arguments)
+            : fn.call(self);
+        };
+  } else {
+    // in IE, native methods are not functions so they cannot be bound (note: they don't need to be)
+    return fn;
+  }
+}
+
+
+function toJsonReplacer(key, value) {
+  var val = value;
+
+  if (/^\$+/.test(key)) {
+    val = undefined;
+  } else if (isWindow(value)) {
+    val = '$WINDOW';
+  } else if (value &&  document === value) {
+    val = '$DOCUMENT';
+  } else if (isScope(value)) {
+    val = '$SCOPE';
+  }
+
+  return val;
+}
+
+
+/**
+ * @ngdoc function
+ * @name angular.toJson
+ * @function
+ *
+ * @description
+ * Serializes input into a JSON-formatted string.
+ *
+ * @param {Object|Array|Date|string|number} obj Input to be serialized into JSON.
+ * @param {boolean=} pretty If set to true, the JSON output will contain newlines and whitespace.
+ * @returns {string} Jsonified string representing `obj`.
+ */
+function toJson(obj, pretty) {
+  return JSON.stringify(obj, toJsonReplacer, pretty ? '  ' : null);
+}
+
+
+/**
+ * @ngdoc function
+ * @name angular.fromJson
+ * @function
+ *
+ * @description
+ * Deserializes a JSON string.
+ *
+ * @param {string} json JSON string to deserialize.
+ * @returns {Object|Array|Date|string|number} Deserialized thingy.
+ */
+function fromJson(json) {
+  return isString(json)
+      ? JSON.parse(json)
+      : json;
+}
+
+
+function toBoolean(value) {
+  if (value && value.length !== 0) {
+    var v = lowercase("" + value);
+    value = !(v == 'f' || v == '0' || v == 'false' || v == 'no' || v == 'n' || v == '[]');
+  } else {
+    value = false;
+  }
+  return value;
+}
+
+/**
+ * @returns {string} Returns the string representation of the element.
+ */
+function startingTag(element) {
+  element = jqLite(element).clone();
+  try {
+    // turns out IE does not let you set .html() on elements which
+    // are not allowed to have children. So we just ignore it.
+    element.html('');
+  } catch(e) {}
+  return jqLite('<div>').append(element).html().
+      match(/^(<[^>]+>)/)[1].
+      replace(/^<([\w\-]+)/, function(match, nodeName) { return '<' + lowercase(nodeName); });
+}
+
+
+/////////////////////////////////////////////////
+
+/**
+ * Parses an escaped url query string into key-value pairs.
+ * @returns Object.<(string|boolean)>
+ */
+function parseKeyValue(/**string*/keyValue) {
+  var obj = {}, key_value, key;
+  forEach((keyValue || "").split('&'), function(keyValue){
+    if (keyValue) {
+      key_value = keyValue.split('=');
+      key = decodeURIComponent(key_value[0]);
+      obj[key] = isDefined(key_value[1]) ? decodeURIComponent(key_value[1]) : true;
+    }
+  });
+  return obj;
+}
+
+function toKeyValue(obj) {
+  var parts = [];
+  forEach(obj, function(value, key) {
+    parts.push(encodeUriQuery(key, true) + (value === true ? '' : '=' + encodeUriQuery(value, true)));
+  });
+  return parts.length ? parts.join('&') : '';
+}
+
+
+/**
+ * We need our custom mehtod because encodeURIComponent is too agressive and doesn't follow
+ * http://www.ietf.org/rfc/rfc3986.txt with regards to the character set (pchar) allowed in path
+ * segments:
+ *    segment       = *pchar
+ *    pchar         = unreserved / pct-encoded / sub-delims / ":" / "@"
+ *    pct-encoded   = "%" HEXDIG HEXDIG
+ *    unreserved    = ALPHA / DIGIT / "-" / "." / "_" / "~"
+ *    sub-delims    = "!" / "$" / "&" / "'" / "(" / ")"
+ *                     / "*" / "+" / "," / ";" / "="
+ */
+function encodeUriSegment(val) {
+  return encodeUriQuery(val, true).
+             replace(/%26/gi, '&').
+             replace(/%3D/gi, '=').
+             replace(/%2B/gi, '+');
+}
+
+
+/**
+ * This method is intended for encoding *key* or *value* parts of query component. We need a custom
+ * method becuase encodeURIComponent is too agressive and encodes stuff that doesn't have to be
+ * encoded per http://tools.ietf.org/html/rfc3986:
+ *    query       = *( pchar / "/" / "?" )
+ *    pchar         = unreserved / pct-encoded / sub-delims / ":" / "@"
+ *    unreserved    = ALPHA / DIGIT / "-" / "." / "_" / "~"
+ *    pct-encoded   = "%" HEXDIG HEXDIG
+ *    sub-delims    = "!" / "$" / "&" / "'" / "(" / ")"
+ *                     / "*" / "+" / "," / ";" / "="
+ */
+function encodeUriQuery(val, pctEncodeSpaces) {
+  return encodeURIComponent(val).
+             replace(/%40/gi, '@').
+             replace(/%3A/gi, ':').
+             replace(/%24/g, '$').
+             replace(/%2C/gi, ',').
+             replace((pctEncodeSpaces ? null : /%20/g), '+');
+}
+
+
+/**
+ * @ngdoc directive
+ * @name ng.directive:ngApp
+ *
+ * @element ANY
+ * @param {angular.Module} ngApp on optional application
+ *   {@link angular.module module} name to load.
+ *
+ * @description
+ *
+ * Use this directive to auto-bootstrap on application. Only
+ * one directive can be used per HTML document. The directive
+ * designates the root of the application and is typically placed
+ * ot the root of the page.
+ *
+ * In the example below if the `ngApp` directive would not be placed
+ * on the `html` element then the document would not be compiled
+ * and the `{{ 1+2 }}` would not be resolved to `3`.
+ *
+ * `ngApp` is the easiest way to bootstrap an application.
+ *
+ <doc:example>
+   <doc:source>
+    I can add: 1 + 2 =  {{ 1+2 }}
+   </doc:source>
+ </doc:example>
+ *
+ */
+function angularInit(element, bootstrap) {
+  var elements = [element],
+      appElement,
+      module,
+      names = ['ng:app', 'ng-app', 'x-ng-app', 'data-ng-app'],
+      NG_APP_CLASS_REGEXP = /\sng[:\-]app(:\s*([\w\d_]+);?)?\s/;
+
+  function append(element) {
+    element && elements.push(element);
+  }
+
+  forEach(names, function(name) {
+    names[name] = true;
+    append(document.getElementById(name));
+    name = name.replace(':', '\\:');
+    if (element.querySelectorAll) {
+      forEach(element.querySelectorAll('.' + name), append);
+      forEach(element.querySelectorAll('.' + name + '\\:'), append);
+      forEach(element.querySelectorAll('[' + name + ']'), append);
+    }
+  });
+
+  forEach(elements, function(element) {
+    if (!appElement) {
+      var className = ' ' + element.className + ' ';
+      var match = NG_APP_CLASS_REGEXP.exec(className);
+      if (match) {
+        appElement = element;
+        module = (match[2] || '').replace(/\s+/g, ',');
+      } else {
+        forEach(element.attributes, function(attr) {
+          if (!appElement && names[attr.name]) {
+            appElement = element;
+            module = attr.value;
+          }
+        });
+      }
+    }
+  });
+  if (appElement) {
+    bootstrap(appElement, module ? [module] : []);
+  }
+}
+
+/**
+ * @ngdoc function
+ * @name angular.bootstrap
+ * @description
+ * Use this function to manually start up angular application.
+ *
+ * See: {@link guide/bootstrap Bootstrap}
+ *
+ * @param {Element} element DOM element which is the root of angular application.
+ * @param {Array<String|Function>=} modules an array of module declarations. See: {@link angular.module modules}
+ * @returns {AUTO.$injector} Returns the newly created injector for this app.
+ */
+function bootstrap(element, modules) {
+  element = jqLite(element);
+  modules = modules || [];
+  modules.unshift(['$provide', function($provide) {
+    $provide.value('$rootElement', element);
+  }]);
+  modules.unshift('ng');
+  var injector = createInjector(modules);
+  injector.invoke(
+    ['$rootScope', '$rootElement', '$compile', '$injector', function(scope, element, compile, injector){
+      scope.$apply(function() {
+        element.data('$injector', injector);
+        compile(element)(scope);
+      });
+    }]
+  );
+  return injector;
+}
+
+var SNAKE_CASE_REGEXP = /[A-Z]/g;
+function snake_case(name, separator){
+  separator = separator || '_';
+  return name.replace(SNAKE_CASE_REGEXP, function(letter, pos) {
+    return (pos ? separator : '') + letter.toLowerCase();
+  });
+}
+
+function bindJQuery() {
+  // bind to jQuery if present;
+  jQuery = window.jQuery;
+  // reset to jQuery or default to us.
+  if (jQuery) {
+    jqLite = jQuery;
+    extend(jQuery.fn, {
+      scope: JQLitePrototype.scope,
+      controller: JQLitePrototype.controller,
+      injector: JQLitePrototype.injector,
+      inheritedData: JQLitePrototype.inheritedData
+    });
+    JQLitePatchJQueryRemove('remove', true);
+    JQLitePatchJQueryRemove('empty');
+    JQLitePatchJQueryRemove('html');
+  } else {
+    jqLite = JQLite;
+  }
+  angular.element = jqLite;
+}
+
+/**
+ * throw error of the argument is falsy.
+ */
+function assertArg(arg, name, reason) {
+  if (!arg) {
+    throw new Error("Argument '" + (name || '?') + "' is " + (reason || "required"));
+  }
+  return arg;
+}
+
+function assertArgFn(arg, name, acceptArrayAnnotation) {
+  if (acceptArrayAnnotation && isArray(arg)) {
+      arg = arg[arg.length - 1];
+  }
+
+  assertArg(isFunction(arg), name, 'not a function, got ' +
+      (arg && typeof arg == 'object' ? arg.constructor.name || 'Object' : typeof arg));
+  return arg;
+}
+</textarea>
+<textarea id='codeExE' style='display: none'>
+
+// paste your code here to see what Code-Kitten finds...
+</textarea>
+<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  $("#editor").html($("#codeExA").val());
+  var editor = ace.edit("editor");
+  var Range  = ace.require('ace/range').Range;
+  var session = editor.getSession();
+  editor.setTheme("ace/theme/monokai");
+  session.setMode("ace/mode/javascript");
+  session.setTabSize(2);
+  session.setUseSoftTabs(true);
+  editor.setHighlightActiveLine(false);
+  editor.setShowPrintMargin(false);
+  session.setUseWrapMode(true);
+  session.setWrapLimitRange(null, null);
+  editor.setScrollSpeed(8);
+  // --
+  var hasChanged       = false;
+  var allUsedMarkers   = [];
+  var forceGotoNextRun = true;
+  session.on('change', function(){
+    hasChanged = true;
+    setTimeout(runCodeKitten, 10);
+  });
+  function removeAllEditorMarkers(){
+    //console.log("removing all markers");
+    for(var i=0; i<allUsedMarkers.length; i++){
+      session.removeMarker(allUsedMarkers[i]);
+    }
+    allUsedMarkers = [];
+  }
+  function loadCode(elID, btnEl){
+    if(btnEl){
+      $(".loadBtn").removeClass("sel");
+    }
+    forceGotoNextRun = true;
+    $(btnEl).addClass("sel");
+    session.setValue($("#"+elID).text());
+  }
+  var curMatches  = {};
+  var curTxtArray = [];
+  var running     = false;
+  var worker      = new Worker("./codekitten.js");
+  function runCodeKitten(){
+    if(running) return;
+    running = true;
+    hasChanged = false;
+    $("#ckMatchBtns").css({opacity: 0});
+    var code = session.getValue();
+    removeAllEditorMarkers();
+    if(code.length === 0){
+      //console.log("CODE LENGTH === 0");
+      $("#ckFeedback").css({opacity: 0});
+      forceGotoNextRun = true; // user may have pasted in new code.
+      running = false;
+      return;
+    }
+    //console.log("going...");
+    $("#ckFeedback").text("0%").css({opacity: 1});
+    // --
+    worker.postMessage({
+      name: "web", 
+      code: code, 
+      minLinesRepeated: 2,
+      maxToReport: 3
+    });
+    worker.onmessage = function(e) {
+      var d = e.data;
+      if(d.fn === "log"){
+        return console.log(d.obj);
+      }
+      if(d.progress !== 1){
+        // update feedback...
+        $("#ckFeedback").html((d.progress*100).toFixed(0)+"%");
+      }else{
+        // we're done!
+        //console.log("DONE!");
+        //console.log(d);
+        showMatches(d.matches, d.txtArrayOrig);
+        $("#ckFeedback").html("100%").css({opacity: 0});
+        running = false;
+        if(forceGotoNextRun){
+          selectMatch(0, null, true);
+          forceGotoNextRun = false;
+        }
+        if(hasChanged){
+          console.log("auto running again. it changed");
+          runCodeKitten();
+        }
+      }
+    };
+  }
+  function showMatches(matches, txtArrayOrig){
+    var maxToReport = 10;
+    curMatches  = matches;
+    curTxtArray = txtArrayOrig;
+    if(curMatches.length > 0){
+      selectMatch(0);
+    }
+    var html = "";
+    if(curMatches.length > 0){
+      for(var i=0; i<curMatches.length && i<maxToReport; i++){
+        var s = (i===0)?" sel":"";
+        var m2 = [];
+        for(var j=0; j<matches[i].compLines.length; j++){
+          m2.push(matches[i].compLines[j]+1);
+        }
+        var extraInfo = "<div class='info'>"+matches[i].linesToUse+" lines long<br/>"+(matches[i].compLines.length+1)+" occurrences<br/>@ "+(parseInt(matches[i].atLine,10)+1)+","+m2.toString()+"</div>";
+        html += "<div class='selMatch"+s+"' onclick='selectMatch("+i+", this, true);'><div class='serif selMatchBtn'>"+getRomanNumeral(i+1)+"</div>"+extraInfo+"</div>";
+      }
+    }else{
+      // no matches -- we're all clean! 
+      var extraInfo = "<div class='info info2'>Woohoo!<br/>No duplicates.</div>";
+      html += "<div class='selMatch'><div class='serif selMatchBtn selMatchBtnGood'>OK</div>"+extraInfo+"</div>";
+    }
+    $("#ckMatchBtns").html(html).css({opacity: 1});
+  }
+  function selectMatch(i, btnEl, scroll){
+    if(btnEl){
+      $(".selMatch").removeClass("sel");
+      $(btnEl).addClass("sel");
+    }
+    removeAllEditorMarkers();
+    if(i >= 0 && i < curMatches.length){
+      var from = parseInt(curMatches[i].atLine,10);
+      var ltu  = parseInt(curMatches[i].linesToUse,10);
+      var to   = from+ltu;
+      var range = new Range(from,0,to-1,100);
+      allUsedMarkers.push(session.addMarker(range, "highlighted_a", "line", false));
+      var cl = curMatches[i].compLines;
+      for(var m=0; m<cl.length; m++){
+        var c = cl[m];
+        var range = new Range(c,0,c+ltu-1,100);
+        allUsedMarkers.push(session.addMarker(range, "highlighted_b", "line", false));
+      }
+      if(scroll){
+        editor.scrollToLine(from-1, false, true);
+      }
+    }
+  }
+  function getRomanNumeral(num) {
+    var lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1},
+    roman = '',
+    i;
+    for ( i in lookup ) {
+      while ( num >= lookup[i] ) {
+        roman += i;
+        num -= lookup[i];
+      }
+    }
+    return roman;
+  }
+  $(document).ready(function(){
+    runCodeKitten();
+  });
+</script>
+</div>
+<!-- ---------- -->
+    
+    <div id='moreinfo'>
+      Still not convinced?<br/><br/><span>Here's the general consensus on <i><a href='http://en.wikipedia.org/wiki/Duplicate_code'>Wikipedia.</a></i></span>
+    </div>
+    
+    <div id='wikitext'>
+      <b>Code duplication is generally considered a mark of poor or lazy programming style.</b> Good coding style is generally associated with code reuse. It may be slightly faster to develop by duplicating code, because the developer need not concern himself with how the code is already used or how it may be used in the future. The difficulty is that original development is only a small fraction of a product's life cycle, and with code duplication the maintenance costs are much higher. Some of the specific problems include:<br/><br/>
+<ul style='list-style: none;'>      
+<li><b>Code bulk affects comprehension:</b> Code duplication frequently creates long, repeated sections of code that differ in only a few lines or characters. The length of such routines can make it difficult to quickly understand them. This is in contrast to the "best practice" of code decomposition.<br/></li><br/>
+
+<li><b>Purpose masking:</b> The repetition of largely identical code sections can conceal how they differ from one another, and therefore, what the specific purpose of each code section is. Often, the only difference is in a parameter value. The best practice in such cases is a reusable subroutine.<br/></li><br/>
+
+<li><b>Update anomalies:</b> Duplicate code contradicts a fundamental principle of database theory that applies here: Avoid redundancy. Non-observance incurs update anomalies, which increase maintenance costs, in that any modification to a redundant piece of code must be made for each duplicate separately. At best, coding and testing time are multiplied by the number of duplications. At worst, some locations may be missed, and for example bugs thought to be fixed may persist in duplicated locations for months or years. The best practice here is a code library.<br/></li><br/>
+
+<li><b>File size:</b> Unless external lossless compression is applied, the file will take up more space on the computer.<br/></li><br/>
+</ul>
+    </div>
+    
+    <div id='footer'>
+      xoxo<br/><br/>
+      <span>
+        Hand-crafted code built with love by <i><a href='http://chaoscollective.org'>The Chaos Collective.</a></i><br/><br/>Special thanks to cats everywhere &mdash; meow!
+      </span>
+      <br/><br/><br/><br/>
+    </div>
+
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-24671742-1']);
+    _gaq.push(['_setDomainName', 'chaoscollective.org']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  
+</body>
+</html>
